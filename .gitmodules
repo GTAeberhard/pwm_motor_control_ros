@@ -1,0 +1,3 @@
+[submodule "pwm_motor_control"]
+	path = pwm_motor_control
+	url = https://github.com/GTAeberhard/pwm_motor_control.git
