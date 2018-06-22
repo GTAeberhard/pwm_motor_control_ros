@@ -1,0 +1,23 @@
+<package format="2">
+  <name>pwm_motor_control_ros</name>
+  <version>1.0.0</version>
+  <description>
+    This package provides nodes with simple ROS interfaces for controlling
+    a PWM DC or servo motor on various hardware.
+  </description>
+  <maintainer email="michael.aeberhard@gmail.com">Michael Aeberhard</maintainer>
+  <license>MIT</license>
+
+  <url>https://github.com/GTAeberhard/pwm_motor_control</url>
+  <author>Michael Aeberhard</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+
+  <build_depend>message_generation</build_depend>
+
+  <exec_depend>message_runtime</exec_depend>
+</package>
+
