@@ -38,9 +38,13 @@ int main(int argc, char **argv)
                                          std::move(output_direction_1),
                                          std::move(output_direction_2));
 
+    ros::Rate loop_rate(10);
+
     while (ros::ok())
     {
-        ;
+        motor_control.SetSpeed(0);
+        ros::spinOnce();
+        loop_rate.sleep();
     }
 
     return 0;
