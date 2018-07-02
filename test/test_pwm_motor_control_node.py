@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 import os, sys, time, unittest
 import rospy, rostest, rosnode, rosgraph
-from std_msgs.msg import UInt8, UInt16
+from std_msgs.msg import Int8, UInt8, UInt16
 
 PKG = 'pwm_motor_control_ros'
+TIMEOUT = 2.0
 
-## Test basic functionality of PWM Motor Control Node using
-## mock outputs from node instead of real hardware
-class TestPwmMotorControlNode(unittest.TestCase):
+# Test basic functionality of PWM Motor Control Node using
+# mock outputs from node instead of real hardware
+class TestPwmMotorControlNode_Initialization(unittest.TestCase):
     node_name = '/pwm_motor_control'
     topic_name_pwm_out = '/pwm/out'
     topic_name_pwm_direction_1 = '/pwm/direction_1'
@@ -21,9 +22,7 @@ class TestPwmMotorControlNode(unittest.TestCase):
 
     def test_node_starts(self):
         nodes = rosnode.get_node_names()
-        print('Running nodes:')
-        print(nodes)
-        self.assertEqual(nodes, [ self.node_name ])
+        self.assertIn(self.node_name, nodes)
 
     def test_node_subscribers_publishers(self):
         master = rosgraph.Master('/test')
@@ -40,13 +39,52 @@ class TestPwmMotorControlNode(unittest.TestCase):
 
         self.assertIn(self.topic_name_motor_speed, subscribers)
 
-    def test_when_no_input_received(self):
+
+class TestPwmMotorControlNode_MotorSpeeds(unittest.TestCase):
+    node_name = '/pwm_motor_control'
+    topic_name_pwm_out = '/pwm/out'
+    topic_name_pwm_direction_1 = '/pwm/direction_1'
+    topic_name_pwm_direction_2 = '/pwm/direction_2'
+    topic_name_motor_speed = '/motor_speed'
+    pwm_out_received = None
+    pwm_direction_1_received = None
+    pwm_direction_2_received = None
+
+    def __init__(self, *args):
+        super(TestPwmMotorControlNode_MotorSpeeds, self).__init__(*args)
         rospy.init_node('test', anonymous=True)
+
         rospy.Subscriber(self.topic_name_pwm_out, UInt16, self.callback_pwm)
         rospy.Subscriber(self.topic_name_pwm_direction_1, UInt8, self.callback_direction_1)
         rospy.Subscriber(self.topic_name_pwm_direction_2, UInt8, self.callback_direction_2)
+        
+        self.pub_motor_speed = rospy.Publisher(self.topic_name_motor_speed, Int8, queue_size=10)
 
-        timeout = time.time() + 5.0
+    def test_1_when_no_input_received(self):
+        self.wait_for_data_received()
+
+        self.assertEqual(self.pwm_out_received, 0)
+        self.assertEqual(self.pwm_direction_1_received, 255)
+        self.assertEqual(self.pwm_direction_2_received, 0)
+
+    def test_2_input_50_percent(self):
+        self.reset_data_received()
+
+        # Need to wait so that node connections can be established
+        time.sleep(0.3)
+
+        self.pub_motor_speed.publish(Int8(50))
+
+        self.wait_for_data_received()
+
+        self.assertEqual(self.pwm_out_received, 128)
+        self.assertEqual(self.pwm_direction_1_received, 255)
+        self.assertEqual(self.pwm_direction_2_received, 0)
+
+    def wait_for_data_received(self):
+        self.reset_data_received()
+
+        timeout = time.time() + TIMEOUT
         while not rospy.is_shutdown() and \
               self.pwm_out_received == None and \
               self.pwm_direction_1_received == None and \
@@ -54,9 +92,10 @@ class TestPwmMotorControlNode(unittest.TestCase):
               time.time() < timeout:
             time.sleep(0.1)
 
-        self.assertEqual(self.pwm_out_received, 0)
-        self.assertEqual(self.pwm_direction_1_received, 255)
-        self.assertEqual(self.pwm_direction_2_received, 0)
+    def reset_data_received(self):
+        self.pwm_out_received = None
+        self.pwm_direction_1_received = None
+        self.pwm_direction_2_received = None
 
     def callback_pwm(self, data):
         self.pwm_out_received = data.data
@@ -69,4 +108,4 @@ class TestPwmMotorControlNode(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    rostest.rosrun(PKG, 'test_pwm_control_node', TestPwmMotorControlNode)
+    rostest.rosrun(PKG, 'test_pwm_control_node', __name__, sys.argv)
