@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="pwm_motor_control_ros" type="pwm_motor_control_node" name="pwm_motor_control" />
+    <node pkg="pwm_motor_control_ros" type="joy_motor_control_node" name="joy_motor_control" />
+    <test test-name="joy_motor_control" pkg="pwm_motor_control_ros" type="test_joy_motor_control.py" />
+</launch>

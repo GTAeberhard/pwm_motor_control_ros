@@ -20,10 +20,11 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_subdirectory(src/pwm_motor_control_node)
+add_subdirectory(src/pwm_control_nodes)
 add_subdirectory(src/gpio_stub)
 
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   add_rostest(test/pwm_motor_control_node.test)
+  add_rostest(test/joy_motor_control.test)
 endif()

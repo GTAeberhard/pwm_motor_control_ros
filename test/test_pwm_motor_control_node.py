@@ -67,7 +67,7 @@ class TestPwmMotorControlNode_MotorSpeeds(unittest.TestCase):
         self.assertEqual(self.pwm_direction_1_received, 255)
         self.assertEqual(self.pwm_direction_2_received, 0)
 
-    def test_2_input_50_percent(self):
+    def test_2_1_input_50_percent(self):
         self.reset_data_received()
 
         # Need to wait so that node connections can be established
@@ -80,6 +80,20 @@ class TestPwmMotorControlNode_MotorSpeeds(unittest.TestCase):
         self.assertEqual(self.pwm_out_received, 128)
         self.assertEqual(self.pwm_direction_1_received, 255)
         self.assertEqual(self.pwm_direction_2_received, 0)
+
+    def test_2_2_input_50_percent(self):
+        self.reset_data_received()
+
+        # Need to wait so that node connections can be established
+        time.sleep(0.3)
+
+        self.pub_motor_speed.publish(Int8(-50))
+
+        self.wait_for_data_received()
+
+        self.assertEqual(self.pwm_out_received, 128)
+        self.assertEqual(self.pwm_direction_1_received, 0)
+        self.assertEqual(self.pwm_direction_2_received, 255)
 
     def test_3_reset_motor_speed_after_publish_silence(self):
         self.reset_data_received()
