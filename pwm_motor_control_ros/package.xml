@@ -8,7 +8,7 @@
   <maintainer email="michael.aeberhard@gmail.com">Michael Aeberhard</maintainer>
   <license>MIT</license>
 
-  <url>https://github.com/GTAeberhard/pwm_motor_control</url>
+  <url>https://github.com/GTAeberhard/pwm_motor_control_ros</url>
   <author>Michael Aeberhard</author>
 
   <buildtool_depend>catkin</buildtool_depend>
@@ -16,6 +16,8 @@
   <depend>roscpp</depend>
   <depend>rospy</depend>
   <depend>std_msgs</depend>
+
+  <depend>pwm_motor_control</depend>
 
   <build_depend>message_generation</build_depend>
 

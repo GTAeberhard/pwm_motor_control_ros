@@ -2,10 +2,13 @@
 #include "std_msgs/Int8.h"
 #include "sensor_msgs/Joy.h"
 
+ros::Publisher motor_speed_pub;
 
 void JoyCallback(const sensor_msgs::Joy::ConstPtr& msg)
 {
-    return;
+    std_msgs::Int8 msg_speed;
+    msg_speed.data = msg->axes[0];
+    motor_speed_pub.publish(msg_speed);
 }
 
 int main(int argc, char **argv)
@@ -15,7 +18,7 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
 
     ros::Subscriber joy_sub = nh.subscribe<sensor_msgs::Joy>("joy", 10, JoyCallback);
-    ros::Publisher motor_speed_pub = nh.advertise<std_msgs::Int8>("motor_speed", 10);
+    motor_speed_pub = nh.advertise<std_msgs::Int8>("motor_speed", 10);
 
     ros::spin();
 

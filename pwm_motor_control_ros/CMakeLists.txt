@@ -4,11 +4,8 @@ project(pwm_motor_control_ros)
 
 add_compile_options(-std=c++14)
 
-add_subdirectory(pwm_motor_control)
-
+find_package(pwm_motor_control REQUIRED)
 find_package(catkin REQUIRED COMPONENTS roscpp rospy)
-
-find_package(pwm_motor_control)
 
 catkin_package(
   CATKIN_DEPENDS roscpp rospy std_msgs
@@ -28,3 +25,4 @@ if(CATKIN_ENABLE_TESTING)
   add_rostest(test/pwm_motor_control_node.test)
   add_rostest(test/joy_motor_control.test)
 endif()
+
