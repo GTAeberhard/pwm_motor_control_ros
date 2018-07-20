@@ -7,7 +7,7 @@ ros::Publisher motor_speed_pub;
 void JoyCallback(const sensor_msgs::Joy::ConstPtr& msg)
 {
     std_msgs::Int8 msg_speed;
-    msg_speed.data = msg->axes[0];
+    msg_speed.data = static_cast<int>(msg->axes[0]*100.0F);
     motor_speed_pub.publish(msg_speed);
 }
 

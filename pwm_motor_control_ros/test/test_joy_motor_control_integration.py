@@ -24,7 +24,7 @@ class TestJoyMotorControl_JoyTriggerInputForPositiveMotorSpeed(unittest.TestCase
 
     def __init__(self, *args):
         super(TestJoyMotorControl_JoyTriggerInputForPositiveMotorSpeed, self).__init__(*args)
-        rospy.init_node('test', anonymous=True)
+        rospy.init_node('asfnbadkfj', anonymous=True)
 
         rospy.Subscriber(topic_name_pwm_out, UInt16, self.callback_pwm)
         rospy.Subscriber(topic_name_pwm_direction_1, UInt8, self.callback_direction_1)
@@ -34,7 +34,7 @@ class TestJoyMotorControl_JoyTriggerInputForPositiveMotorSpeed(unittest.TestCase
 
     def test_1_full_motor_speed(self):
         # Need to wait so that node connections can be established
-        time.sleep(0.3)
+        time.sleep(2.0)
         self.reset_data_received()
 
         joy_input = Joy()
@@ -73,4 +73,4 @@ class TestJoyMotorControl_JoyTriggerInputForPositiveMotorSpeed(unittest.TestCase
 
 
 if __name__ == '__main__':
-    rostest.rosrun(PKG, 'test_joy_motor_control', __name__, sys.argv)
+    rostest.rosrun(PKG, 'test_joy_motor_control_integration', __name__, sys.argv)

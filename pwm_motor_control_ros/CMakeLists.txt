@@ -22,7 +22,7 @@ add_subdirectory(src/gpio_stub)
 
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
-  add_rostest(test/pwm_motor_control_node.test)
-  add_rostest(test/joy_motor_control.test)
+  add_rostest(test/pwm_motor_control_component.test)
+  add_rostest(test/joy_motor_control_integration.test)
 endif()
 
