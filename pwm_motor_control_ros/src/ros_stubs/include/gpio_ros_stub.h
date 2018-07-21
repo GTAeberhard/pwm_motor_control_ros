@@ -3,9 +3,9 @@
 
 #include <string.h>
 
-#include "ros/ros.h"
+#include <ros/ros.h>
 
-#include "gpio.h"
+#include <gpio.h>
 
 class RosGpio : public GpioPin
 {
@@ -15,9 +15,9 @@ public:
             const std::string& topic_name);
 
 private:
-    void WriteToPin(const uint8_t value);
-    void WriteHighToPin();
-    void WriteLowToPin();
+    void WriteToPin(const uint8_t value) override;
+    void WriteHighToPin() override;
+    void WriteLowToPin() override;
 
     ros::Publisher pin_publisher;
 };

@@ -1,5 +1,5 @@
-#include "gpio_ros_stub.h"
-#include "std_msgs/UInt8.h"
+#include <gpio_ros_stub.h>
+#include <std_msgs/UInt8.h>
 
 RosGpio::RosGpio(const uint8_t pin,
                  ros::NodeHandle& node,
