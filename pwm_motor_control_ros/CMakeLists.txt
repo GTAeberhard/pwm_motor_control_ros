@@ -13,8 +13,8 @@ catkin_package(
 )
 
 include_directories(
-  include
   ${catkin_INCLUDE_DIRS}
+  ${pwm_motor_control_INCLUDE_DIRS}
 )
 
 add_subdirectory(src/device_nodes)
