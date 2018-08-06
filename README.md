@@ -1,4 +1,6 @@
-# PWM Controller Nodes
+[![Build Status](https://travis-ci.org/GTAeberhard/pwm_motor_control_ros.svg?branch=master)](https://travis-ci.org/GTAeberhard/pwm_motor_control_ros)
+
+# PWM Controller ROS Nodes
 
 This package wraps the [PWM Motor Control](https://github.com/GTAeberhard/pwm_motor_control) implementation into ROS node, allowing for the control basic PWM DC motors and servo motors using various hardware.
 
