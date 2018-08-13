@@ -16,7 +16,5 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_subdirectory(src/device_nodes)
-add_subdirectory(src/pwm_control_nodes)
-add_subdirectory(src/ros_stubs)
+add_subdirectory(src)
 add_subdirectory(test)

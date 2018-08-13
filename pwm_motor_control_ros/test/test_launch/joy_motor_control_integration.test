@@ -3,5 +3,4 @@
     <node pkg="pwm_motor_control_ros" type="joy_motor_control_node" name="joy_motor_control" />
     <test test-name="test_joy_motor_control_integration" pkg="pwm_motor_control_ros" type="test_joy_motor_control_integration.py" />
     <test test-name="test_joy_motor_control_initialization" pkg="pwm_motor_control_ros" type="test_joy_motor_control_initialization.py" />
-    <node pkg="rosbag" type="record" name="test_record" args="-a"/>  
 </launch>
