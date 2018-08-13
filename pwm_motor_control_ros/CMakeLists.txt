@@ -19,10 +19,4 @@ include_directories(
 add_subdirectory(src/device_nodes)
 add_subdirectory(src/pwm_control_nodes)
 add_subdirectory(src/ros_stubs)
-
-if(CATKIN_ENABLE_TESTING)
-  find_package(rostest REQUIRED)
-  add_rostest(test/pwm_motor_control_component.test)
-  add_rostest(test/joy_motor_control_integration.test)
-endif()
-
+add_subdirectory(test)
