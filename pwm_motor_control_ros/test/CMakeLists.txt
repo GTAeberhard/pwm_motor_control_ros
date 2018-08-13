@@ -1,5 +1,6 @@
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
+  find_package(rospy REQUIRED)
 
   add_rostest(test_launch/pwm_motor_control_component.test)
   add_rostest(test_launch/joy_motor_control_integration.test)

@@ -5,10 +5,10 @@ project(pwm_motor_control_ros)
 add_compile_options(-std=c++14)
 
 find_package(pwm_motor_control REQUIRED)
-find_package(catkin REQUIRED COMPONENTS roscpp rospy)
+find_package(catkin REQUIRED COMPONENTS roscpp)
 
 catkin_package(
-  CATKIN_DEPENDS roscpp rospy std_msgs
+  CATKIN_DEPENDS roscpp std_msgs
   DEPENDS pwm_motor_control
 )
 
