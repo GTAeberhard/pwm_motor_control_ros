@@ -4,7 +4,7 @@ import rospy, rostest, rosnode, rosgraph
 from std_msgs.msg import Int8, UInt8, UInt16
 from sensor_msgs.msg import Joy
 
-TIMEOUT = 2.0
+TIMEOUT = 5.0
 
 PKG = 'pwm_motor_control_ros'
 

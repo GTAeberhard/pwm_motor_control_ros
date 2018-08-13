@@ -3,7 +3,7 @@ import os, sys, time, unittest
 import rospy, rostest, rosnode, rosgraph
 from std_msgs.msg import Int8, UInt8, UInt16
 
-TIMEOUT = 2.0
+TIMEOUT = 5.0
 
 PKG = 'pwm_motor_control_ros'
 

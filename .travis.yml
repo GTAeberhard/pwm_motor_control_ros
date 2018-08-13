@@ -2,10 +2,11 @@ sudo: required
 dist: trusty 
 language: generic 
 env:
-  - ROS_DISTRO="melodic"
-    ADDITIONAL_DEBS="ros-melodic-rostest ros-melodic-joy"
-    BEFORE_SCRIPT='pip install rosnode && pip install rosgraph'
+  global:
+    - ROS_DISTRO="melodic"
+    - ROS_REPOSITORY_PATH="http://packages.ros.org/ros/ubuntu"
+    - ADDITIONAL_DEBS="ros-melodic-ros-comm ros-melodic-rostest ros-melodic-joy"
 install:
   - git clone --depth 1 https://github.com/ros-industrial/industrial_ci.git .industrial_ci  
 script: 
-  - .industrial_ci/ci.sh
+  - .industrial_ci/travis.sh
