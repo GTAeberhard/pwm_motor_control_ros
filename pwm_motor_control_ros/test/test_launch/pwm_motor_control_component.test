@@ -1,4 +1,5 @@
 <launch>
     <node pkg="pwm_motor_control_ros" type="pwm_motor_control_node" name="pwm_motor_control" />
     <test test-name="test_pwm_motor_control_node" pkg="pwm_motor_control_ros" type="test_pwm_motor_control_node.py" />
+    <test test-name="test_pwm_motor_control_node_initialization" pkg="pwm_motor_control_ros" type="test_pwm_motor_control_node_initialization.py" />
 </launch>

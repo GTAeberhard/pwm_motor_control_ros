@@ -12,6 +12,8 @@ catkin_package(
   DEPENDS pwm_motor_control
 )
 
+catkin_python_setup()
+
 include_directories(
   ${catkin_INCLUDE_DIRS}
 )
