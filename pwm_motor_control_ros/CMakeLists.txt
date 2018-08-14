@@ -22,4 +22,4 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 install(DIRECTORY launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

@@ -17,11 +17,11 @@ topic_name_joy = '/joy'
 
 parameter_axis = joy_motor_control_node_name + "/axis"
 
-class TestJoyMotorControl_JoyXboxRightTriggerForMotorSpeed(unittest.TestCase):
+class TestJoyMotorControl_JoyXboxRightTriggerForPositiveMotorSpeed(unittest.TestCase):
     pwm_receiver = None
 
     def __init__(self, *args):
-        super(TestJoyMotorControl_JoyXboxRightTriggerForMotorSpeed, self).__init__(*args)
+        super(TestJoyMotorControl_JoyXboxRightTriggerForPositiveMotorSpeed, self).__init__(*args)
         self.pwm_receiver = PwmReceiverNode()
         self.pub_joy = rospy.Publisher(topic_name_joy, Joy, queue_size=1)
 
