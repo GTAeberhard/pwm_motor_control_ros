@@ -1,0 +1,7 @@
+<launch>
+    <node name="joy_motor_control_xbox" pkg="pwm_motor_control_ros" type="joy_motor_control_node">
+        <param name="axis_motor_forward" value="5" />
+        <param name="axis_motor_backward" value="2" />
+        <param name="axis_servo" value="1" />
+    </node>
+</launch>

@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="pwm_motor_control_ros" type="pwm_motor_control_node" name="pwm_motor_control" />
+    <include file="$(find pwm_motor_control_ros)/launch/joy_xbox_controller.launch" />
+    <test test-name="test_joy_motor_control_integration_xbox_controller" pkg="pwm_motor_control_ros" type="test_joy_motor_control_integration_xbox_controller.py" />
+</launch>

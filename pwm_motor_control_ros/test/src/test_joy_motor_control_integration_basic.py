@@ -15,6 +15,8 @@ joy_motor_control_node_name = '/joy_motor_control'
 topic_name_motor_speed = '/motor_speed'
 topic_name_joy = '/joy'
 
+parameter_axis = joy_motor_control_node_name + "/axis"
+
 class TestJoyMotorControl_JoyTriggerInputForPositiveMotorSpeed(unittest.TestCase):
     pwm_receiver = None
 
@@ -23,12 +25,12 @@ class TestJoyMotorControl_JoyTriggerInputForPositiveMotorSpeed(unittest.TestCase
         self.pwm_receiver = PwmReceiverNode()
         self.pub_joy = rospy.Publisher(topic_name_joy, Joy, queue_size=1)
 
-    def test_1_full_motor_speed(self):
+    def setUp(self):
         # Need to wait so that node connections can be established
         time.sleep(1.0)
-        
         self.pwm_receiver.reset_data_received()
 
+    def test_1_full_motor_speed(self):
         joy_input = Joy()
         joy_input.axes.append(1.0)
 
