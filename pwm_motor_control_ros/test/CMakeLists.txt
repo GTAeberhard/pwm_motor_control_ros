@@ -9,6 +9,7 @@ if(CATKIN_ENABLE_TESTING)
                         src/test_joy_motor_control_initialization.py
                         src/test_joy_motor_control_integration.py
                         src/test_pwm_motor_control_node.py
+                        src/test_pwm_motor_control_node_initialization.py
                         DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
   install(DIRECTORY test_launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
