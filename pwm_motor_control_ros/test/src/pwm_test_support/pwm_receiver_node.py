@@ -1,6 +1,6 @@
 import time
 import rospy
-from std_msgs.msg import Int8, UInt8, UInt16
+from std_msgs.msg import UInt8, UInt16
 
 TIMEOUT = 5.0
 
