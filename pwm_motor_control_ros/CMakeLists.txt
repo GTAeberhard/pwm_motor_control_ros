@@ -18,6 +18,11 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  find_package(rospy REQUIRED)
+endif()
+
 add_subdirectory(src)
 add_subdirectory(test)
 
