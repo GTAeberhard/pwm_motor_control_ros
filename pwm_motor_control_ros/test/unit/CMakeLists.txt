@@ -1,1 +1,3 @@
-# TODO: unit tests
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+catkin_add_gtest(joystick_interpreter_spec joystick_interpreter_spec.cpp)
+target_link_libraries(joystick_interpreter_spec joystick_interpreter)

@@ -18,13 +18,13 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+add_subdirectory(src)
+
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   find_package(rospy REQUIRED)
+  add_subdirectory(test)
 endif()
-
-add_subdirectory(src)
-add_subdirectory(test)
 
 install(DIRECTORY launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
