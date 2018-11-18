@@ -8,25 +8,29 @@ class JoystickInterpreter
 public:
     JoystickInterpreter();
 
-    size_t GetAxis() const
-    {
-        return axis_;
-    }
+    float TransformInput(float input_value);
 
-    float GetAxisMaxValue() const
-    {
-        return max_value_;
-    }
+    size_t GetAxis() const;
+    
+    void SetAxisOutputRange(const float min_value, const float max_value);
+    void SetAxisInputRange(const float min_value, const float max_value);
 
-    float GetAxisMinValue() const
-    {
-        return min_value_;
-    }
+    float GetAxisOutputRangeMax() const;
+    float GetAxisOutputRangeMin() const;
 
+    float GetAxisInputRangeMax() const;
+    float GetAxisInputRangeMin() const;
+ 
 private:
+    void CalculateSlopeParamter();
+
     size_t axis_{0U};
-    float max_value_{1.0F};
-    float min_value_{0.0F};
+    float output_max_value_{1.0F};
+    float output_min_value_{0.0F};
+    float input_max_value_{1.0F};
+    float input_min_value_{0.0F};
+
+    float param_slope_;
 };
 
 #endif
