@@ -1,37 +1,27 @@
 #ifndef JOYSTICK_INTERPRETER_H
 #define JOYSTICK_INTERPRETER_H
 
-#include <vector>
+#include <map>
 #include <cstddef>
+
+#include "joystick_axis_transformer.h"
+
+namespace joystick_interpreter {
 
 class JoystickInterpreter
 {
 public:
     JoystickInterpreter();
 
-    float TransformInput(float input_value);
+    void RegisterAxis(const uint32_t id, Range input_range, Range output_range);
+    const Range GetAxisInputRange(const uint32_t id);
+    const Range GetAxisOutputRange(const uint32_t id);
 
-    size_t GetAxis() const;
-    
-    void SetAxisOutputRange(const float min_value, const float max_value);
-    void SetAxisInputRange(const float min_value, const float max_value);
-
-    float GetAxisOutputRangeMax() const;
-    float GetAxisOutputRangeMin() const;
-
-    float GetAxisInputRangeMax() const;
-    float GetAxisInputRangeMin() const;
- 
+    const size_t GetNumberOfAxis() const;
 private:
-    void CalculateSlopeParamter();
-
-    size_t axis_{0U};
-    float output_max_value_{1.0F};
-    float output_min_value_{0.0F};
-    float input_max_value_{1.0F};
-    float input_min_value_{0.0F};
-
-    float param_slope_;
+    std::map<uint16_t, JoystickAxisTransformer> axis_map_;
 };
+
+}
 
 #endif

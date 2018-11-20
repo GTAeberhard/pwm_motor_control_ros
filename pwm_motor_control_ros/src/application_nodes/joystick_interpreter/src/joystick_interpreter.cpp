@@ -1,61 +1,30 @@
 #include "joystick_interpreter.h"
 
+using namespace joystick_interpreter;
+
 JoystickInterpreter::JoystickInterpreter()
 {
-    CalculateSlopeParamter();
 }
 
-float JoystickInterpreter::TransformInput(float input_value)
+const size_t JoystickInterpreter::GetNumberOfAxis() const
 {
-    input_value = std::min(input_value, GetAxisInputRangeMax());
-    input_value = std::max(input_value, GetAxisInputRangeMin());
-
-    float output_value = param_slope_ * (input_value - input_min_value_) + output_min_value_;
-
-    return output_value;
+    return axis_map_.size();
 }
 
-void JoystickInterpreter::CalculateSlopeParamter()
+void JoystickInterpreter::RegisterAxis(const uint32_t id,
+                                       Range input_range,
+                                       Range output_range)
 {
-    param_slope_ = (GetAxisOutputRangeMax() - GetAxisOutputRangeMin()) / 
-                   (GetAxisInputRangeMax() - GetAxisInputRangeMin());
+    JoystickAxisTransformer axis_transformer(input_range, output_range);
+    axis_map_.insert( std::pair<uint32_t, JoystickAxisTransformer>(id, axis_transformer) );
 }
 
-size_t JoystickInterpreter::GetAxis() const
+const Range JoystickInterpreter::GetAxisInputRange(const uint32_t id)
 {
-    return axis_;
+    return axis_map_[id].GetAxisInputRange();
 }
 
-void JoystickInterpreter::SetAxisOutputRange(const float min_value, const float max_value)
+const Range JoystickInterpreter::GetAxisOutputRange(const uint32_t id)
 {
-    output_max_value_ = max_value;
-    output_min_value_ = min_value;
-    CalculateSlopeParamter();
-}
-
-void JoystickInterpreter::SetAxisInputRange(const float min_value, const float max_value)
-{
-    input_max_value_ = max_value;
-    input_min_value_ = min_value;
-    CalculateSlopeParamter();
-}
-
-float JoystickInterpreter::GetAxisOutputRangeMax() const
-{
-    return output_max_value_;
-}
-
-float JoystickInterpreter::GetAxisOutputRangeMin() const
-{
-    return output_min_value_;
-}
-
-float JoystickInterpreter::GetAxisInputRangeMax() const
-{
-    return input_max_value_;
-}
-
-float JoystickInterpreter::GetAxisInputRangeMin() const
-{
-    return input_min_value_;
+    return axis_map_[id].GetAxisOutputRange();
 }

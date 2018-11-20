@@ -2,82 +2,29 @@
 
 #include "joystick_interpreter.h"
 
-TEST(JoyStickInterpreter, Initialization)
-{
-    JoystickInterpreter unit;
-    
-    EXPECT_EQ(unit.GetAxis(), 0U);
+using namespace joystick_interpreter;
 
-    EXPECT_EQ(unit.GetAxisOutputRangeMax(), 1.0F);
-    EXPECT_EQ(unit.GetAxisOutputRangeMin(), 0.0F);
-
-    EXPECT_EQ(unit.GetAxisInputRangeMax(), 1.0F);
-    EXPECT_EQ(unit.GetAxisInputRangeMin(), 0.0F);
-}
-
-TEST(JoystickInterpreter, SetOutputInputMinMax)
+TEST(JoystickInterpreter, Initialization)
 {
     JoystickInterpreter unit;
 
-    constexpr float output_min = 0.5F;
-    constexpr float output_max = 2.0F;
-    constexpr float input_min = -1.0F;
-    constexpr float input_max = 1.0F;
-
-    unit.SetAxisOutputRange(output_min, output_max);
-    unit.SetAxisInputRange(input_min, input_max);
-
-    EXPECT_EQ(unit.GetAxisOutputRangeMin(), output_min);
-    EXPECT_EQ(unit.GetAxisOutputRangeMax(), output_max);
-    EXPECT_EQ(unit.GetAxisInputRangeMin(), input_min);
-    EXPECT_EQ(unit.GetAxisInputRangeMax(), input_max);
+    EXPECT_EQ(unit.GetNumberOfAxis(), 0U);
 }
 
-class TriggerButton : public testing::Test
+TEST(JoystickInterpreter, RegisterAnAxis)
 {
-  protected:
-    void SetUp() override
-    {
-        constexpr float output_min = 0.0F;
-        constexpr float output_max = 1.0F;
-        constexpr float input_min = -1.0F;
-        constexpr float input_max = 1.0F;
+    JoystickInterpreter unit;
 
-        unit_.SetAxisOutputRange(output_min, output_max);
-        unit_.SetAxisInputRange(input_min, input_max);
-    }
+    constexpr uint32_t AXIS_ID = 1U;
+    Range input_range = {-1.0F, 1.0F};
+    Range output_range = {0.0F, 1.0F};
+    unit.RegisterAxis(AXIS_ID, input_range, output_range);
 
-    JoystickInterpreter unit_;
-};
-
-TEST_F(TriggerButton, Trigger_FullyDepressed)
-{
-    float output = unit_.TransformInput(1.0F);
-    EXPECT_EQ(output, 1.0F);
-}
-
-TEST_F(TriggerButton, Trigger_NotPressed)
-{
-    float output = unit_.TransformInput(-1.0F);
-    EXPECT_EQ(output, 0.0F);
-}
-
-TEST_F(TriggerButton, Trigger_HalfDepressed)
-{
-    float output = unit_.TransformInput(0.0F);
-    EXPECT_EQ(output, 0.5F);
-}
-
-TEST_F(TriggerButton, Trigger_OutOfRangeHigh)
-{
-    float output = unit_.TransformInput(1.5F);
-    EXPECT_EQ(output, 1.0F);
-}
-
-TEST_F(TriggerButton, Trigger_OutOfRangeLow)
-{
-    float output = unit_.TransformInput(-1.5F);
-    EXPECT_EQ(output, 0.0F);
+    EXPECT_EQ(unit.GetNumberOfAxis(), 1U);
+    EXPECT_EQ(unit.GetAxisInputRange(AXIS_ID).min, input_range.min);
+    EXPECT_EQ(unit.GetAxisInputRange(AXIS_ID).max, input_range.max);
+    EXPECT_EQ(unit.GetAxisOutputRange(AXIS_ID).min, output_range.min);
+    EXPECT_EQ(unit.GetAxisOutputRange(AXIS_ID).max, output_range.max);
 }
 
 int main(int argc, char **argv)

@@ -1,5 +1,6 @@
 add_library (joystick_interpreter STATIC
-             ${CMAKE_CURRENT_SOURCE_DIR}/src/joystick_interpreter.cpp)
+             ${CMAKE_CURRENT_SOURCE_DIR}/src/joystick_interpreter.cpp
+             ${CMAKE_CURRENT_SOURCE_DIR}/src/joystick_axis_transformer.cpp)
 
 target_include_directories(joystick_interpreter PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

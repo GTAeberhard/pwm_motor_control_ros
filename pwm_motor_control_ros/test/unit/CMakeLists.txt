@@ -1,3 +1,7 @@
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+
 catkin_add_gtest(joystick_interpreter_spec joystick_interpreter_spec.cpp)
 target_link_libraries(joystick_interpreter_spec joystick_interpreter)
+
+catkin_add_gtest(joystick_axis_transformer_spec joystick_axis_transformer_spec.cpp)
+target_link_libraries(joystick_axis_transformer_spec joystick_interpreter)
