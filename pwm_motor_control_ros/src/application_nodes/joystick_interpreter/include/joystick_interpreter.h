@@ -2,6 +2,7 @@
 #define JOYSTICK_INTERPRETER_H
 
 #include <vector>
+#include <cstddef>
 
 class JoystickInterpreter
 {
