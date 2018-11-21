@@ -18,6 +18,9 @@ public:
     const Range GetAxisOutputRange(const uint32_t id);
 
     const size_t GetNumberOfAxis() const;
+
+    float TransformInput(const uint32_t id, const float input_value);
+    bool IsPressed(const uint32_t id, const float input_value);
 private:
     std::map<uint16_t, JoystickAxisTransformer> axis_map_;
 };

@@ -28,3 +28,13 @@ const Range JoystickInterpreter::GetAxisOutputRange(const uint32_t id)
 {
     return axis_map_[id].GetAxisOutputRange();
 }
+
+float JoystickInterpreter::TransformInput(const uint32_t id, const float input_value)
+{
+    return axis_map_[id].TransformInput(input_value);
+}
+
+bool JoystickInterpreter::IsPressed(const uint32_t id, const float input_value)
+{
+    return axis_map_[id].IsPressed(input_value);
+}

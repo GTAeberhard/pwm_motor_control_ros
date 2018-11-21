@@ -22,6 +22,15 @@ class TestJoyMotorControl_JoyTriggerInputForPositiveMotorSpeed(BasePwmTestFixtur
         self.wait_and_assert_speed(255)
         self.assert_positive_motor_direction()
 
+    def test_2_half_motor_speed(self):
+        joy_input = Joy()
+        joy_input.axes.append(0.5)
+
+        self.pub_joy.publish(joy_input)
+
+        self.wait_and_assert_speed(128)
+        self.assert_positive_motor_direction()
+
 
 if __name__ == '__main__':
     rostest.rosrun(PKG, 'test_joy_motor_control_integration', __name__, sys.argv)

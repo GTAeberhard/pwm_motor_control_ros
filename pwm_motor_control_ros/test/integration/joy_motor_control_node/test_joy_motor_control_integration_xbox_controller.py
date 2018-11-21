@@ -44,6 +44,12 @@ class TestXboxJoyMotorControl_LeftTriggerForNegativeMotorSpeed(BasePwmTestFixtur
         self.wait_and_assert_speed(255)
         self.assert_negative_motor_direction()
 
+    def test_2_half_motor_speed_negative(self):
+        self.pub_joy.publish(XboxControllerJoyStub.left_trigger_half_depressed())
+
+        self.wait_and_assert_speed(128)
+        self.assert_negative_motor_direction()
+
 
 if __name__ == '__main__':
     rostest.rosrun(PKG, 'test_joy_motor_control_integration_xbox', __name__, sys.argv)

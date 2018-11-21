@@ -4,7 +4,7 @@
 
 using namespace joystick_interpreter;
 
-TEST(JoystickAxisTransformer, Initialization)
+TEST(JoystickAxisTransformer, DefaultInitialization)
 {
     JoystickAxisTransformer unit;
 
@@ -45,20 +45,12 @@ class TriggerButton : public testing::TestWithParam<TestInputOutput>
   protected:
     void SetUp() override
     {
-        constexpr float input_min = -1.0F;
-        constexpr float input_max = 1.0F;
+        constexpr float input_min = 1.0F;
+        constexpr float input_max = -1.0F;
         unit_.SetAxisInputRange(input_min, input_max);
 
         constexpr float output_min = 0.0F;
-        float output_max;
-        if (GetParam().is_output_positive)
-        {
-            output_max = 1.0F;
-        }
-        else
-        {
-            output_max = -1.0F;
-        }
+        float output_max = (GetParam().is_output_positive) ? 1.0F : -1.0F;
         unit_.SetAxisOutputRange(output_min, output_max);
     }
 
@@ -67,31 +59,95 @@ class TriggerButton : public testing::TestWithParam<TestInputOutput>
 
 TEST_P(TriggerButton, ButtonsPressed)
 {
-    float output = unit_.TransformInput(GetParam().input);
+    auto output = unit_.TransformInput(GetParam().input);
     EXPECT_EQ(output, GetParam().expected_output);
 }
 
 INSTANTIATE_TEST_CASE_P(TriggerButtonPressesNormalWithPositiveOutput,
                         TriggerButton,
-                        testing::Values(TestInputOutput{1.0F, 1.0F, true},
-                                        TestInputOutput{-1.0F, 0.0F, true},
+                        testing::Values(TestInputOutput{-1.0F, 1.0F, true},
+                                        TestInputOutput{1.0F, 0.0F, true},
                                         TestInputOutput{0.0F, 0.5F, true}));
 
 INSTANTIATE_TEST_CASE_P(TriggerButtonPressesOutOfRangeWithPositiveOutput,
                         TriggerButton,
-                        testing::Values(TestInputOutput{1.5F, 1.0F, true},
-                                        TestInputOutput{-1.5F, 0.0F, true}));
+                        testing::Values(TestInputOutput{-1.5F, 1.0F, true},
+                                        TestInputOutput{1.5F, 0.0F, true}));
 
 INSTANTIATE_TEST_CASE_P(TriggerButtonPressesNormalWithNegativeOutput,
                         TriggerButton,
-                        testing::Values(TestInputOutput{1.0F, -1.0F, false},
-                                        TestInputOutput{-1.0F, 0.0F, false},
+                        testing::Values(TestInputOutput{-1.0F, -1.0F, false},
+                                        TestInputOutput{1.0F, 0.0F, false},
                                         TestInputOutput{0.0F, -0.5F, false}));
 
 INSTANTIATE_TEST_CASE_P(TriggerButtonPressesOutOfRangeWithNegativeOutput,
                         TriggerButton,
-                        testing::Values(TestInputOutput{1.5F, -1.0F, false},
-                                        TestInputOutput{-1.5F, 0.0F, false}));
+                        testing::Values(TestInputOutput{-1.5F, -1.0F, false},
+                                        TestInputOutput{1.5F, 0.0F, false}));
+
+struct TestInputBoolOutput
+{
+    float input;
+    bool output;
+};
+
+class JoystickAxisPressed : public testing::TestWithParam<TestInputBoolOutput>
+{
+  protected:
+    JoystickAxisTransformer unit_;
+};
+
+TEST_P(JoystickAxisPressed, IsPressed)
+{
+    auto is_pressed = unit_.IsPressed(GetParam().input);
+    EXPECT_EQ(is_pressed, GetParam().output);
+}
+
+INSTANTIATE_TEST_CASE_P(PressedCases,
+                        JoystickAxisPressed,
+                        testing::Values(TestInputBoolOutput{1.5F, true},
+                                        TestInputBoolOutput{1.0F, true},
+                                        TestInputBoolOutput{0.5F, true},
+                                        TestInputBoolOutput{0.015F, true}));
+
+INSTANTIATE_TEST_CASE_P(NotPressedCases,
+                        JoystickAxisPressed,
+                        testing::Values(TestInputBoolOutput{-0.5F, false},
+                                        TestInputBoolOutput{0.0F, false},
+                                        TestInputBoolOutput{joystick_interpreter::THESHOLD_PRESSED - 0.001,
+                                                            false}));
+
+class TriggerButtonPressed : public testing::TestWithParam<TestInputBoolOutput>
+{
+  protected:
+    void SetUp() override
+    {
+        constexpr float input_min = 1.0F;
+        constexpr float input_max = -1.0F;
+        unit_.SetAxisInputRange(input_min, input_max);
+    }
+    
+    JoystickAxisTransformer unit_;
+};
+
+TEST_P(TriggerButtonPressed, IsPressed)
+{
+    auto is_pressed = unit_.IsPressed(GetParam().input);
+    EXPECT_EQ(is_pressed, GetParam().output);
+}
+
+INSTANTIATE_TEST_CASE_P(PressedCases,
+                        TriggerButtonPressed,
+                        testing::Values(TestInputBoolOutput{-1.5F, true},
+                                        TestInputBoolOutput{-1.0F, true},
+                                        TestInputBoolOutput{0.0F, true},
+                                        TestInputBoolOutput{0.97F, true}));
+
+INSTANTIATE_TEST_CASE_P(NotPressedCases,
+                        TriggerButtonPressed,
+                        testing::Values(TestInputBoolOutput{1.5F, false},
+                                        TestInputBoolOutput{1.0F, false},
+                                        TestInputBoolOutput{0.995F, false}));
 
 int main(int argc, char **argv)
 {

@@ -14,14 +14,43 @@ JoystickAxisTransformer::JoystickAxisTransformer(const Range input_range,
     CalculateSlopeParamter();
 }
 
-float JoystickAxisTransformer::TransformInput(float input_value)
+float JoystickAxisTransformer::TransformInput(const float input_value) const
 {
-    input_value = std::min(input_value, GetAxisInputRange().max);
-    input_value = std::max(input_value, GetAxisInputRange().min);
+    auto output_value = param_slope_ * (input_value - input_range_.min) + output_range_.min;
 
-    float output_value = param_slope_ * (input_value - input_range_.min) + output_range_.min;
+    if (GetAxisOutputRange().max > GetAxisOutputRange().min)
+    {
+        output_value = std::min(output_value, GetAxisOutputRange().max);
+        output_value = std::max(output_value, GetAxisOutputRange().min);
+    }
+    else
+    {
+        output_value = std::min(output_value, GetAxisOutputRange().min);
+        output_value = std::max(output_value, GetAxisOutputRange().max);
+    }
 
     return output_value;
+}
+
+bool JoystickAxisTransformer::IsPressed(const float input_value) const
+{
+    auto range = input_range_.max - input_range_.min;
+    auto amount_above_min = input_value - input_range_.min;
+
+    if (GetAxisInputRange().max > GetAxisInputRange().min)
+    {
+        amount_above_min = std::min(amount_above_min, GetAxisInputRange().max);
+        amount_above_min = std::max(amount_above_min, GetAxisInputRange().min);
+    }
+    else
+    {
+        amount_above_min = std::min(amount_above_min, GetAxisInputRange().min);
+        amount_above_min = std::max(amount_above_min, GetAxisInputRange().max);
+    }
+
+    auto percent_of_range = amount_above_min / range;
+
+    return (percent_of_range > THESHOLD_PRESSED) ? true : false;
 }
 
 void JoystickAxisTransformer::CalculateSlopeParamter()

@@ -6,6 +6,8 @@
 
 namespace joystick_interpreter {
 
+constexpr float THESHOLD_PRESSED = 0.01F;
+
 struct Range
 {
     float min;
@@ -18,7 +20,8 @@ public:
     JoystickAxisTransformer();
     JoystickAxisTransformer(const Range input_range, const Range ouput_range);
 
-    float TransformInput(float input_value);
+    float TransformInput(const float input_value) const;
+    bool IsPressed(const float input_value) const;
 
     void SetAxisOutputRange(const float min_value, const float max_value);
     void SetAxisInputRange(const float min_value, const float max_value);

@@ -1,6 +1,6 @@
-add_library (joystick_interpreter STATIC
-             ${CMAKE_CURRENT_SOURCE_DIR}/src/joystick_interpreter.cpp
-             ${CMAKE_CURRENT_SOURCE_DIR}/src/joystick_axis_transformer.cpp)
+add_library(joystick_interpreter STATIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/joystick_interpreter.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/joystick_axis_transformer.cpp)
 
 target_include_directories(joystick_interpreter PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -17,6 +17,7 @@ add_executable(joy_motor_control_node
   ${CMAKE_CURRENT_SOURCE_DIR}/joy_motor_control_node.cpp)
 
 target_link_libraries(joy_motor_control_node
+  joystick_interpreter
   ${catkin_LIBRARIES})
 
 install(TARGETS joy_motor_control_node
