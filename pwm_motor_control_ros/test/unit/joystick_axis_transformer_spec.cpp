@@ -33,52 +33,65 @@ TEST(JoystickAxisTransformer, SetOutputInputMinMax)
     EXPECT_EQ(unit.GetAxisInputRange().max, input_max);
 }
 
-class TriggerButton : public testing::Test
+struct TestInputOutput
+{
+    float input;
+    float expected_output;
+    bool is_output_positive;
+};
+
+class TriggerButton : public testing::TestWithParam<TestInputOutput>
 {
   protected:
     void SetUp() override
     {
-        constexpr float output_min = 0.0F;
-        constexpr float output_max = 1.0F;
         constexpr float input_min = -1.0F;
         constexpr float input_max = 1.0F;
-
-        unit_.SetAxisOutputRange(output_min, output_max);
         unit_.SetAxisInputRange(input_min, input_max);
+
+        constexpr float output_min = 0.0F;
+        float output_max;
+        if (GetParam().is_output_positive)
+        {
+            output_max = 1.0F;
+        }
+        else
+        {
+            output_max = -1.0F;
+        }
+        unit_.SetAxisOutputRange(output_min, output_max);
     }
 
     JoystickAxisTransformer unit_;
 };
 
-TEST_F(TriggerButton, Trigger_FullyDepressed)
+TEST_P(TriggerButton, ButtonsPressed)
 {
-    float output = unit_.TransformInput(1.0F);
-    EXPECT_EQ(output, 1.0F);
+    float output = unit_.TransformInput(GetParam().input);
+    EXPECT_EQ(output, GetParam().expected_output);
 }
 
-TEST_F(TriggerButton, Trigger_NotPressed)
-{
-    float output = unit_.TransformInput(-1.0F);
-    EXPECT_EQ(output, 0.0F);
-}
+INSTANTIATE_TEST_CASE_P(TriggerButtonPressesNormalWithPositiveOutput,
+                        TriggerButton,
+                        testing::Values(TestInputOutput{1.0F, 1.0F, true},
+                                        TestInputOutput{-1.0F, 0.0F, true},
+                                        TestInputOutput{0.0F, 0.5F, true}));
 
-TEST_F(TriggerButton, Trigger_HalfDepressed)
-{
-    float output = unit_.TransformInput(0.0F);
-    EXPECT_EQ(output, 0.5F);
-}
+INSTANTIATE_TEST_CASE_P(TriggerButtonPressesOutOfRangeWithPositiveOutput,
+                        TriggerButton,
+                        testing::Values(TestInputOutput{1.5F, 1.0F, true},
+                                        TestInputOutput{-1.5F, 0.0F, true}));
 
-TEST_F(TriggerButton, Trigger_OutOfRangeHigh)
-{
-    float output = unit_.TransformInput(1.5F);
-    EXPECT_EQ(output, 1.0F);
-}
+INSTANTIATE_TEST_CASE_P(TriggerButtonPressesNormalWithNegativeOutput,
+                        TriggerButton,
+                        testing::Values(TestInputOutput{1.0F, -1.0F, false},
+                                        TestInputOutput{-1.0F, 0.0F, false},
+                                        TestInputOutput{0.0F, -0.5F, false}));
 
-TEST_F(TriggerButton, Trigger_OutOfRangeLow)
-{
-    float output = unit_.TransformInput(-1.5F);
-    EXPECT_EQ(output, 0.0F);
-}
+INSTANTIATE_TEST_CASE_P(TriggerButtonPressesOutOfRangeWithNegativeOutput,
+                        TriggerButton,
+                        testing::Values(TestInputOutput{1.5F, -1.0F, false},
+                                        TestInputOutput{-1.5F, 0.0F, false}));
 
 int main(int argc, char **argv)
 {
