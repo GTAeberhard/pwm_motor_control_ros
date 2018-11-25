@@ -7,8 +7,7 @@ target_include_directories(pwm_motor_control_node_lib PUBLIC
 
 target_link_libraries(pwm_motor_control_node_lib
   ${catkin_LIBRARIES}
-  motor_control
-  gpio_stub_ros)
+  motor_control)
 
 install(TARGETS pwm_motor_control_node_lib
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

@@ -3,7 +3,8 @@ add_executable(pwm_motor_control_node
 
 target_link_libraries(pwm_motor_control_node
   ${catkin_LIBRARIES}
-  pwm_motor_control_node_lib)
+  pwm_motor_control_node_lib
+  gpio_stub_ros)
 
 install(TARGETS pwm_motor_control_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

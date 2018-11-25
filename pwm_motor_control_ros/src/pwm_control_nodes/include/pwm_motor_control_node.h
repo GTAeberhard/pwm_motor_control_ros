@@ -7,9 +7,6 @@
 
 #include <motor_control.h>
 
-#include <gpio_ros_stub.h>
-#include <gpio_pwm_ros_stub.h>
-
 class PwmMotorControlNode
 {
 public:
