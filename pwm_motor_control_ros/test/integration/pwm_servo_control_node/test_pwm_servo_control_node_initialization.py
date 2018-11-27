@@ -8,14 +8,14 @@ TIMEOUT = 5.0
 
 PKG = 'pwm_motor_control_ros'
 
-node_name = '/pwm_motor_control'
-topic_name_motor_speed = '/motor_speed'
+node_name = '/pwm_servo_control'
+topic_name_motor_speed = '/servo_angle'
 
 topic_name_pwm_out = '/pwm/out'
 topic_name_pwm_direction_1 = '/pwm/direction_1'
 topic_name_pwm_direction_2 = '/pwm/direction_2'
 
-class TestPwmMotorControlNode_Initialization(unittest.TestCase):
+class TestPwmServoControlNode_Initialization(unittest.TestCase):
     def test_node_starts(self):
         nodes = rosnode.get_node_names()
         self.assertIn(node_name, nodes)
@@ -37,4 +37,4 @@ class TestPwmMotorControlNode_Initialization(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    rostest.rosrun(PKG, 'test_pwm_motor_control_node', __name__, sys.argv)
+    rostest.rosrun(PKG, 'test_pwm_servo_control_node', __name__, sys.argv)

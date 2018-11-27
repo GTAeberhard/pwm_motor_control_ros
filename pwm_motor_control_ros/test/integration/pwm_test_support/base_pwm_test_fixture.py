@@ -14,9 +14,9 @@ class BasePwmTestFixture(unittest.TestCase):
         time.sleep(1.0)
         self.pwm_receiver.reset_data_received()
 
-    def wait_and_assert_speed(self, speed_value):
+    def wait_and_assert_pwm_value(self, pwm_value):
         self.pwm_receiver.wait_for_data_received()
-        self.assertEqual(self.pwm_receiver.pwm_out_received, speed_value)
+        self.assertEqual(self.pwm_receiver.pwm_out_received, pwm_value)
 
     def assert_positive_motor_direction(self):
         self.assertEqual(self.pwm_receiver.pwm_direction_1_received, 255)

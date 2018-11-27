@@ -19,7 +19,7 @@ class TestJoyMotorControl_JoyTriggerInputForPositiveMotorSpeed(BasePwmTestFixtur
 
         self.pub_joy.publish(joy_input)
 
-        self.wait_and_assert_speed(255)
+        self.wait_and_assert_pwm_value(255)
         self.assert_positive_motor_direction()
 
     def test_2_half_motor_speed(self):
@@ -28,7 +28,7 @@ class TestJoyMotorControl_JoyTriggerInputForPositiveMotorSpeed(BasePwmTestFixtur
 
         self.pub_joy.publish(joy_input)
 
-        self.wait_and_assert_speed(128)
+        self.wait_and_assert_pwm_value(128)
         self.assert_positive_motor_direction()
 
 

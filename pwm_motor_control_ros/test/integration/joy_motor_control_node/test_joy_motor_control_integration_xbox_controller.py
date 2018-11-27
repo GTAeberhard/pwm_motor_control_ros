@@ -17,19 +17,19 @@ class TestXboxJoyMotorControl_RightTriggerForPositiveMotorSpeed(BasePwmTestFixtu
     def test_1_full_motor_speed_positive(self):
         self.pub_joy.publish(XboxControllerJoyStub.right_trigger_depressed())
 
-        self.wait_and_assert_speed(255)
+        self.wait_and_assert_pwm_value(255)
         self.assert_positive_motor_direction()
 
     def test_2_idle_motor_speed_positive(self):
         self.pub_joy.publish(XboxControllerJoyStub.idle_controller())
 
-        self.wait_and_assert_speed(0)
+        self.wait_and_assert_pwm_value(0)
         self.assert_positive_motor_direction()
 
     def test_3_half_motor_speed_positive(self):
         self.pub_joy.publish(XboxControllerJoyStub.right_trigger_half_depressed())
 
-        self.wait_and_assert_speed(128)
+        self.wait_and_assert_pwm_value(128)
         self.assert_positive_motor_direction()
 
 
@@ -41,13 +41,13 @@ class TestXboxJoyMotorControl_LeftTriggerForNegativeMotorSpeed(BasePwmTestFixtur
     def test_1_full_motor_speed_negative(self):
         self.pub_joy.publish(XboxControllerJoyStub.left_trigger_depressed())
 
-        self.wait_and_assert_speed(255)
+        self.wait_and_assert_pwm_value(255)
         self.assert_negative_motor_direction()
 
     def test_2_half_motor_speed_negative(self):
         self.pub_joy.publish(XboxControllerJoyStub.left_trigger_half_depressed())
 
-        self.wait_and_assert_speed(128)
+        self.wait_and_assert_pwm_value(128)
         self.assert_negative_motor_direction()
 
 
